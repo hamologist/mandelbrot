@@ -1,0 +1,10 @@
+.*.swp
+*.out
+*.o
+*.plist
+.clang
+tags
+test/googletest/
+include/gtest/
+lib/
+build/
