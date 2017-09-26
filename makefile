@@ -2,7 +2,7 @@ CC := clang++
 
 ROOT_DIR:=$(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 
-CFLAGS := -std=c++11 -g
+CFLAGS := -std=c++11 -O3
 EMCCFLAGS := -std=c++11 -O3
 LIB := -lSDL2
 INC := -I include

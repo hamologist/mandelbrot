@@ -7,7 +7,7 @@ int main() {
     bool running = true;
     uint16_t window_width = 1440;
     uint16_t window_height = 900;
-    uint32_t max_iterations = 1000;
+    uint32_t max_iterations = 500;
     uint32_t break_point = 4;
     SDL_Window *window;
     SDL_Renderer *renderer;

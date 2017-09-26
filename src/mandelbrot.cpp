@@ -46,17 +46,17 @@ fractals::mandelbrot::view_data fractals::mandelbrot::compute(double center, dou
                 current_rgba.green = 0;
                 current_rgba.blue = 0;
             } else if (intensity < 0.25) {
-                current_rgba.green = 255 * intensity;
-                current_rgba.blue = 0;
+                current_rgba.red = 0;
+                current_rgba.green = 255.0 - (1020.0 * (intensity - 0.75));
             } else if (intensity < 0.5) {
-                current_rgba.red = 255 - (255 * intensity);
-                current_rgba.blue = 0;
+                current_rgba.red = 0;
+                current_rgba.blue = 255.0 * (1020.0 * (intensity - 0.50));
             } else if (intensity < 0.75) {
-                current_rgba.red = 0;
-                current_rgba.blue = 255 * intensity;
+                current_rgba.red = 255.0 - (1020.0 * (intensity - 0.25));
+                current_rgba.blue = 0;
             } else {
-                current_rgba.red = 0;
-                current_rgba.green = 255 - (255 * intensity);
+                current_rgba.green = 1020.0 * intensity;
+                current_rgba.blue = 0;
             }
             
             y_view.push_back(current_rgba);
