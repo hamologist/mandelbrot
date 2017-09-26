@@ -1,64 +1,65 @@
-#include <iostream>
 #include <cmath>
 #include <cstdint>
+#include <iostream>
 #include <vector>
-#include <mandelbrot.h>
+#include <mandelbrot.hpp>
 
-fractals::mandelbrot::view_data fractals::mandelbrot::compute(double center, double c, double zoom, uint32_t max_iterations, uint32_t break_point, uint16_t width, uint16_t height) {
-    double x_min = -2.0 / zoom;
-    double y_min = -1.0 / zoom;
-    double x_max = 1.0 / zoom;
-    double y_max = 1.0 / zoom;
-    double x_dist = x_max - x_min;
-    double y_dist = y_max - y_min;
-    double x_cord, y_cord, x, y, x_temp;
+const static double DEFAULT_X_DISTANCE = 3.0;
+const static double DEFAULT_Y_DISTANCE = 2.0;
+
+fractals::mandelbrot::view_data fractals::mandelbrot::compute(fractals::mandelbrot::Mandelbrot mandelbrot) {
+    long double x_dist = DEFAULT_X_DISTANCE / mandelbrot.zoom;
+    long double y_dist = DEFAULT_Y_DISTANCE / mandelbrot.zoom;
+    long double x_space = x_dist / 2.0;
+    long double y_space = y_dist / 2.0;
+    long double x_min = mandelbrot.x_c - x_space;
+    long double y_min = mandelbrot.y_c - y_space;
+    long double x_cord, y_cord, x, y, x_temp;
     uint32_t iteration;
     uint8_t color;
+    uint8_t red_dis = abs(mandelbrot.first_color.red - mandelbrot.second_color.red);
+    uint8_t green_dis = abs(mandelbrot.first_color.green - mandelbrot.second_color.green);
+    uint8_t blue_dis = abs(mandelbrot.first_color.blue - mandelbrot.second_color.blue);
+    uint8_t red_t = mandelbrot.first_color.red > mandelbrot.second_color.red ? 1 : -1;
+    uint8_t green_t = mandelbrot.first_color.green > mandelbrot.second_color.green ? 1 : -1;
+    uint8_t blue_t = mandelbrot.first_color.blue > mandelbrot.second_color.blue ? 1 : -1;
 
-    if (max_iterations == 0) {
+    if (mandelbrot.max_iterations == 0) {
         return view_data(0);
     }
 
-    view_data current_view_data(height);
+    view_data current_view_data(mandelbrot.view_height);
 
-    for (uint16_t p_y = 1; p_y <= height; p_y++) {
+    for (uint16_t p_y = 1; p_y <= mandelbrot.view_height; p_y++) {
         auto y_view = current_view_data[p_y - 1];
-        y_cord = (y_dist * (p_y/(double)height)) + y_min;
+        y_cord = (y_dist * (p_y/(long double)mandelbrot.view_height)) + y_min;
 
-        for (uint16_t p_x = 1; p_x <= width; p_x++) {
-            x_cord = (x_dist * (p_x/(double)width)) + x_min;
+        for (uint16_t p_x = 1; p_x <= mandelbrot.view_width; p_x++) {
+            x_cord = (x_dist * (p_x/(long double)mandelbrot.view_width)) + x_min;
             x = 0;
             y = 0;
             iteration = 0;
             
-            while (x*x + y*y < break_point && iteration < max_iterations) {
+            while (x*x + y*y < mandelbrot.escape_point && iteration < mandelbrot.max_iterations) {
                 x_temp = x*x - y*y + x_cord;
                 y = 2*x*y + y_cord;
                 x = x_temp;
                 iteration++;
             }
 
-            double intensity = iteration / (double)max_iterations;
-            rgba current_rgba  = {255, 255, 255, 255};
+            rgba current_rgba;
 
-            if (iteration == max_iterations) {
-                current_rgba.red = 0;
-                current_rgba.green = 0;
-                current_rgba.blue = 0;
-            } else if (intensity < 0.25) {
-                current_rgba.red = 0;
-                current_rgba.green = 255.0 - (1020.0 * (intensity - 0.75));
-            } else if (intensity < 0.5) {
-                current_rgba.red = 0;
-                current_rgba.blue = 255.0 * (1020.0 * (intensity - 0.50));
-            } else if (intensity < 0.75) {
-                current_rgba.red = 255.0 - (1020.0 * (intensity - 0.25));
-                current_rgba.blue = 0;
+            if (iteration == mandelbrot.max_iterations) {
+                current_rgba = {0, 0, 0, 255};
             } else {
-                current_rgba.green = 1020.0 * intensity;
-                current_rgba.blue = 0;
+                long double intensity = iteration / (long double)mandelbrot.max_iterations;
+
+                current_rgba.red = (uint8_t)(red_t * red_dis * intensity) + mandelbrot.first_color.red;
+                current_rgba.green = (uint8_t)(green_t * green_dis * intensity) + mandelbrot.first_color.green;
+                current_rgba.blue = (uint8_t)(blue_t * blue_dis * intensity) + mandelbrot.first_color.blue;
+                current_rgba.alpha = 255;
             }
-            
+
             y_view.push_back(current_rgba);
         }
         current_view_data[p_y - 1] = y_view;
