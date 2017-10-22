@@ -1,0 +1,42 @@
+<html>
+<head>
+    <link rel="stylesheet" href="mandelbrot.css">
+</head>
+<body>
+    <canvas id="mandelbrotDisplay" width="1440" height="900"></canvas>
+    <div class="mandelbrotConfig">
+        <div class="mandelbrotInput">
+            <label>X Value
+                <input id="xInput" type="text" value="-1.0"></input>
+            </label>
+        </div>
+        <div class="mandelbrotInput">
+            <label>Y Value
+                <input id="yInput" type="text" value="0.0"></input>
+            </label>
+        </div>
+        <div class="mandelbrotInput">
+            <label>Zoom
+                <input id="zoom" type="text" value="1.0"></input>
+            </label>
+        </div>
+        <div class="mandelbrotInput">
+            <label>Max Iterations
+                <input id="maxIterations" type="text" value="1000"></input>
+            </label>
+        </div>
+        <div class="mandelbrotInput">
+            <label>Escape Point
+                <input id="escapePoint" type="text" value="4"></input>
+            </label>
+        </div>
+        <br />
+    </div>
+
+    <div class="mandelbrotConfig">
+        <button id="computeButton" type="button">Compute</button>
+    </div>
+    <script type="text/javascript" src="mandelbrot-interface.js"></script>
+    <script type="text/javascript" src="mandelbrot.js"></script>
+</body>
+</htmL>

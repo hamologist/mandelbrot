@@ -1,12 +1,14 @@
 #include <mandelbrot.hpp>
-#include <cstdint>
-#include <array>
+#include <vector>
 #include <emscripten/bind.h>
 #include <emscripten/val.h>
 
 using namespace emscripten;
 
 EMSCRIPTEN_BINDINGS(mandelbrot) {
+    register_vector<fractals::rgba>("view_data_row");
+    register_vector<std::vector<fractals::rgba>>("view_data");
+
     value_object<fractals::rgba>("rgba")
         .field("red", &fractals::rgba::red)
         .field("green", &fractals::rgba::green)
@@ -26,4 +28,3 @@ EMSCRIPTEN_BINDINGS(mandelbrot) {
 
     function("mandelbrot_compute", &fractals::mandelbrot::compute);
 }
-

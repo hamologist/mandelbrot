@@ -1,0 +1,19 @@
+#mandelbrotDisplay {
+    display: block;
+    border: 1px solid #000000;
+    margin: auto;
+}
+
+.mandelbrotConfig {
+    padding-top: 10px;
+    display: flex;
+    justify-content: center;
+}
+
+.mandelbrotInput {
+    padding-right: 5px;
+}
+
+input, label {
+    display: block;
+}

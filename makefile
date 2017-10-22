@@ -13,6 +13,9 @@ all: bin build bin/main.out
 wasm: \
 	wasm-deploy \
 	build \
+	wasm-deploy/index.html \
+	wasm-deploy/mandelbrot.css \
+	wasm-deploy/mandelbrot-interface.js \
 	wasm-deploy/mandelbrot.js
 
 bin:
@@ -37,25 +40,27 @@ build/mandelbrot.o: src/mandelbrot.cpp
 # wasm
 wasm-deploy/mandelbrot.js: build/mandelbrot.bc build/mandelbrot_embind.bc
 	$(EMCC) $(EMCCFLAGS) $(INC) \
-		--bind -s WASM=1 \
+		--bind \
+		-s WASM=1 \
+		-s ALLOW_MEMORY_GROWTH=1 \
 		build/mandelbrot.bc \
 		build/mandelbrot_embind.bc \
 		-o wasm-deploy/mandelbrot.js
 
-wasm-deploy/chip-eight-interface.js:
-	cp wasm/chip-eight-interface.js wasm-deploy/chip-eight-interface.js
+wasm-deploy/mandelbrot-interface.js:
+	cp wasm/mandelbrot-interface.js wasm-deploy/mandelbrot-interface.js
 
-wasm-deploy/chip-eight.css:
-	cp wasm/chip-eight.css wasm-deploy/chip-eight.css
+wasm-deploy/mandelbrot.css:
+	cp wasm/mandelbrot.css wasm-deploy/mandelbrot.css
 
 wasm-deploy/index.html:
 	cp wasm/index.html wasm-deploy/index.html
 
 build/mandelbrot.bc: src/mandelbrot.cpp
-	$(EMCC) $(EMCCFLAGS) $(INC) -c src/mandelbrot.cpp -o build/mandelbrot.bc
+	$(EMCC) $(EMCCFLAGS) $(INC) -s ALLOW_MEMORY_GROWTH=1 -c src/mandelbrot.cpp -o build/mandelbrot.bc
 
 build/mandelbrot_embind.bc: src/mandelbrot_embind.cpp
-	$(EMCC) $(EMCCFLAGS) $(INC) -c src/mandelbrot_embind.cpp -o build/mandelbrot_embind.bc
+	$(EMCC) $(EMCCFLAGS) $(INC) -s ALLOW_MEMORY_GROWTH=1 -c src/mandelbrot_embind.cpp -o build/mandelbrot_embind.bc
 
 # Other
 clean:
