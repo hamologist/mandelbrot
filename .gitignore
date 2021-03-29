@@ -9,3 +9,4 @@ include/gtest/
 lib/
 build/
 wasm-deploy/
+.idea/
