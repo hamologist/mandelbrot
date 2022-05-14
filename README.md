@@ -41,6 +41,6 @@ $ python -m http.server --directory wasm-deploy
 ^ Where `python` is python version 3 and the command is executed from the root of the project directory.
 
 ## Public Resource
-Users interested in exploring the Mandelbrot set from their browser that don't want to go through the installation instructions provided above can use the following [site](https://www.hamologist.com/mandelbrot/).
+Users interested in exploring the Mandelbrot set from their browser that don't want to go through the installation instructions provided above can use the following [site](https://www.hamologist.com/mandelbrot).
 Upon initial visit you will likely see a white screen.
 Please allow time for the set space to compute.
