@@ -41,6 +41,4 @@ $ python -m http.server --directory wasm-deploy
 ^ Where `python` is python version 3 and the command is executed from the root of the project directory.
 
 ## Public Resource
-Users interested in exploring the Mandelbrot set from their browser that don't want to go through the installation instructions provided above can use the following [site](https://old-site.hamologist.com/mandelbrot).
-Upon initial visit you will likely see a white screen.
-Please allow time for the set space to compute.
+Users interested in exploring the Mandelbrot set from their browser that don't want to go through the installation instructions provided above can use the following [site](https://old-site.hamologist.com/mandelbrot). Note: This public resource is actually implemented in Javascript and the code for the JS implementation can be found [here](https://github.com/hamologist/hamologist-website/tree/master/components/demos/mandelbrot). The Mandelbrot computation happens in [this](https://github.com/hamologist/hamologist-website/blob/master/components/demos/mandelbrot/workers/mandelbrotCompute.ts) web worker.
